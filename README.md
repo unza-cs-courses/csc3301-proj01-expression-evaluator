@@ -1,7 +1,7 @@
 # Project 1: Expression Evaluator
 
-**CSC3301 Programming Language Paradigms**  
-**Weight:** 3% of final grade  
+**CSC3301 Programming Language Paradigms**
+**Weight:** 3% of final grade
 **Duration:** 2 weeks
 
 ---
@@ -19,6 +19,69 @@ Build a mathematical expression evaluator that parses and evaluates arithmetic e
 3. Handle errors gracefully with meaningful messages
 4. Write comprehensive unit tests
 5. Follow Python style conventions (PEP 8)
+
+---
+
+## Getting Started
+
+### For Students (via GitHub Classroom)
+
+When you accept this assignment, a unique variant is automatically generated for you:
+
+1. Your repository will have a `.variant_config.json` file with your personalized test values
+2. Check `ASSIGNMENT.md` for your specific requirements
+3. Your code must implement the functions specified in your variant
+
+### Manual Setup (Instructors/Testing)
+
+```bash
+# Clone the repository
+git clone <repo-url>
+cd csc3301-proj01-expression-evaluator
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Generate a variant manually (optional)
+python scripts/generate_variant.py <student_id>
+
+# Run tests
+pytest tests/visible/ -v
+```
+
+---
+
+## Variant System
+
+Each student receives a unique variant generated from their student ID. The variant determines:
+
+| Parameter | Description | Range |
+|-----------|-------------|-------|
+| `required_functions` | Functions to implement | 4-6 from {sqrt, abs, sin, cos, tan, log, exp, floor, ceil} |
+| `test_constants` | Test values | 3 random values between 1-100 |
+| `precision` | Decimal accuracy | 4, 5, or 6 decimal places |
+
+### Viewing Your Variant
+
+```bash
+# Show your current variant
+python scripts/show_variant.py
+
+# Or check variant.json / .variant_config.json directly
+```
+
+### Variant Generation
+
+The variant is generated deterministically using a hash of your student ID:
+
+```python
+seed = hash(f"{student_id}-P1-CSC3301-2026")
+```
+
+This ensures:
+- Same student always gets same variant
+- Different students get different variants
+- Instructors can reproduce any student's variant
 
 ---
 
@@ -50,31 +113,32 @@ Your expression evaluator must:
 
 ---
 
-## Your Variant
-
-Run `python scripts/show_variant.py` to see your personalized requirements.
-
-Your variant includes:
-- **Required functions:** Subset of {sqrt, abs, sin, cos, tan, log, exp, floor, ceil}
-- **Test constants:** Numbers used in hidden tests
-- **Precision:** Decimal places for comparison
-
----
-
 ## Project Structure
 
 ```
+.
+├── .github/
+│   └── workflows/
+│       ├── autograding.yml         # Runs visible tests
+│       └── generate-variant.yml    # Generates student variant
+├── scripts/
+│   ├── generate_variant.py         # Creates unique test values
+│   ├── generate_assignment.py      # Creates personalized ASSIGNMENT.md
+│   └── show_variant.py             # Display current variant
 ├── src/
 │   ├── tokenizer.py      # Lexical analysis
-│   ├── parser.py         # Syntax analysis → AST
+│   ├── parser.py         # Syntax analysis -> AST
 │   ├── evaluator.py      # AST evaluation
 │   └── repl.py           # Interactive mode
 ├── tests/
-│   └── test_evaluator.py
-├── scripts/
-│   ├── generate_variant.py
-│   └── show_variant.py
-└── variant.json
+│   └── visible/
+│       ├── conftest.py             # Loads variant config
+│       └── test_evaluator.py       # Visible test suite
+├── .variant_config.json            # Your unique test values (generated)
+├── ASSIGNMENT.md                   # Your personalized assignment (generated)
+├── ASSIGNMENT_TEMPLATE.md          # Template for generating ASSIGNMENT.md
+├── variant.json                    # Your variant config
+└── README.md                       # This file
 ```
 
 ---
@@ -99,7 +163,33 @@ evaluate("sqrt(16) + abs(-5)")  # Returns 9.0
 
 ---
 
+## Running Tests
+
+```bash
+# Run all visible tests
+pytest tests/visible/ -v
+
+# Run tests for a specific class
+pytest tests/visible/test_evaluator.py::TestBasicArithmetic -v
+pytest tests/visible/test_evaluator.py::TestVariables -v
+pytest tests/visible/test_evaluator.py::TestFunctions -v
+```
+
+**Note:** Visible tests run on every push. Hidden tests with additional edge cases will run after the submission deadline.
+
+---
+
 ## Grading
+
+| Component | Points | When |
+|-----------|--------|------|
+| Visible Tests | 40 | Every push |
+| Hidden Tests | 30 | After deadline |
+| Code Quality | 20 | Manual review |
+| Process | 10 | Milestone compliance |
+| **Total** | 100 | |
+
+### Component Breakdown
 
 | Component | Points |
 |-----------|--------|
@@ -116,7 +206,7 @@ evaluate("sqrt(16) + abs(-5)")  # Returns 9.0
 ## Submission
 
 1. Complete all components in `src/`
-2. Ensure tests pass: `pytest tests/ -v`
+2. Ensure tests pass: `pytest tests/visible/ -v`
 3. Fill out `SUBMISSION.md`
 4. Create final tag: `git tag final-submission && git push --tags`
 
@@ -124,8 +214,10 @@ evaluate("sqrt(16) + abs(-5)")  # Returns 9.0
 
 ## Academic Integrity
 
-- Discuss concepts with classmates ✓
-- Use Python documentation ✓
-- Use parsing tutorials/concepts ✓
-- Share or copy code ✗
-- Use AI to generate solutions ✗
+- Discuss concepts with classmates (allowed)
+- Use Python documentation (allowed)
+- Use parsing tutorials/concepts (allowed)
+- Share or copy code (NOT ALLOWED)
+- Use AI to generate solutions (NOT ALLOWED)
+
+Your submission will be checked for similarity with other students using automated plagiarism detection.

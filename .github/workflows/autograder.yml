@@ -1,0 +1,26 @@
+name: Autograder
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['milestone-*', 'final-*']
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: pip install pytest flake8
+    - name: Extract student ID
+      run: |
+        REPO="${{ github.repository }}"
+        STUDENT_ID=$(echo $REPO | rev | cut -d'-' -f1 | rev)
+        python scripts/generate_variant.py $STUDENT_ID
+    - name: Run tests
+      run: pytest tests/ -v
+    - name: Run linter
+      run: flake8 src/ --max-line-length=100 || true

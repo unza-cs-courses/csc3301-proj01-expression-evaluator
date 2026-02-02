@@ -1,0 +1,17 @@
+{
+  "student_id": "evaluator",
+  "seed": 3467321957,
+  "required_functions": [
+    "ceil",
+    "exp",
+    "floor",
+    "sin",
+    "sqrt"
+  ],
+  "test_constants": [
+    3.4913,
+    55.4523,
+    11.9946
+  ],
+  "precision": 6
+}

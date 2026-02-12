@@ -6,3 +6,8 @@ venv/
 .idea/
 .vscode/
 test_results.json
+
+# Generated per-student artifacts (created by workflow / scripts)
+variant.json
+.variant_config.json
+ASSIGNMENT.md

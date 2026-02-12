@@ -3,17 +3,25 @@
 Interactive REPL (Read-Eval-Print Loop) for the Expression Evaluator.
 CSC3301 Programming Language Paradigms - Project 1
 
-This module provides an interactive mode for testing your evaluator.
+Usage (from repository root):
+    python -m src.repl
 """
-from tokenizer import tokenize
-from parser import parse
-from evaluator import evaluate
+import sys
+import os
+
+# Ensure the repo root is on sys.path so `from src.…` imports work
+# regardless of how the script is invoked.
+_repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if _repo_root not in sys.path:
+    sys.path.insert(0, _repo_root)
+
+from src.evaluator import evaluate
 
 
 def repl():
     """
     Start an interactive REPL session.
-    
+
     Commands:
         - Type an expression to evaluate it
         - Type 'quit' or 'exit' to end the session
@@ -26,12 +34,14 @@ def repl():
     print("Type an expression to evaluate, or 'quit' to exit.")
     print("Example: 2 + 3 * 4")
     print()
-    
+
+    env = {}  # variable environment persists across the session
+
     while True:
         try:
             # Read
             user_input = input(">>> ").strip()
-            
+
             # Handle special commands
             if not user_input:
                 continue
@@ -41,15 +51,13 @@ def repl():
             if user_input.lower() == 'help':
                 print_help()
                 continue
-            
-            # Eval
-            tokens = tokenize(user_input)
-            ast = parse(tokens)
-            result = evaluate(ast)
-            
+
+            # Eval  (evaluate already calls tokenize -> parse -> eval_node)
+            result = evaluate(user_input, env)
+
             # Print
             print(f"= {result}")
-            
+
         except KeyboardInterrupt:
             print("\nGoodbye!")
             break
@@ -64,15 +72,15 @@ Supported Operations:
   - Arithmetic: +, -, *, /, ^ (power)
   - Parentheses: ( )
   - Functions: Based on your variant (check ASSIGNMENT.md)
-  
+
 Examples:
   >>> 2 + 3
-  = 5
+  = 5.0
   >>> (2 + 3) * 4
-  = 20
+  = 20.0
   >>> sqrt(16)
   = 4.0
-  
+
 Commands:
   help  - Show this help message
   quit  - Exit the REPL

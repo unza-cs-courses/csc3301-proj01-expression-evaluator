@@ -28,8 +28,8 @@ Build a mathematical expression evaluator that parses and evaluates arithmetic e
 
 When you accept this assignment, a unique variant is automatically generated for you:
 
-1. Your repository will have a `.variant_config.json` file with your personalized test values
-2. Check `ASSIGNMENT.md` for your specific requirements
+1. A GitHub Actions workflow automatically generates `variant.json` and `ASSIGNMENT.md` on first push
+2. Check `ASSIGNMENT.md` for your specific requirements (generated after first push)
 3. Your code must implement the functions specified in your variant
 
 ### Manual Setup (Instructors/Testing)

@@ -119,7 +119,6 @@ Your expression evaluator must:
 .
 ├── .github/
 │   └── workflows/
-│       ├── autograding.yml         # Runs visible tests
 │       └── generate-variant.yml    # Generates student variant
 ├── scripts/
 │   ├── generate_variant.py         # Creates unique test values
@@ -175,19 +174,19 @@ pytest tests/visible/test_evaluator.py::TestVariables -v
 pytest tests/visible/test_evaluator.py::TestFunctions -v
 ```
 
-**Note:** Visible tests run on every push. Hidden tests with additional edge cases will run after the submission deadline.
+**Note:** Testing is local-only. There is no automatic feedback on push — you must run tests yourself before submitting. Hidden tests with additional edge cases will run after the submission deadline.
 
 ---
 
 ## Grading
 
-| Component | Points | When |
-|-----------|--------|------|
-| Visible Tests | 40 | Every push |
-| Hidden Tests | 30 | After deadline |
-| Code Quality | 20 | Manual review |
-| Process | 10 | Milestone compliance |
-| **Total** | 100 | |
+| Component | Points |
+|-----------|--------|
+| Visible Tests | 40 |
+| Hidden Tests | 30 |
+| Code Quality | 20 |
+| Process | 10 |
+| **Total** | 100 |
 
 ### Component Breakdown
 
@@ -206,9 +205,10 @@ pytest tests/visible/test_evaluator.py::TestFunctions -v
 ## Submission
 
 1. Complete all components in `src/`
-2. Ensure tests pass: `pytest tests/visible/ -v`
+2. Run tests locally and ensure they pass: `pytest tests/visible/ -v`
 3. Fill out `SUBMISSION.md`
-4. Create final tag: `git tag final-submission && git push --tags`
+4. Push your code before the deadline
+5. Create final tag: `git tag final-submission && git push --tags`
 
 ---
 
